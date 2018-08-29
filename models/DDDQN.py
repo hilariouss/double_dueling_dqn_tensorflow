@@ -18,17 +18,22 @@ class DDDQN(BaseModel):
 
             # Logic for common hidden network
             common_net = self.input
-            for layer_size in self.config.common_net_hidden_dimensions:
+            for i, layer_size in enumerate(
+                    self.config.common_net_hidden_dimensions):
                 common_net = tf.layers.dense(common_net,
                                              layer_size,
-                                             activation=tf.nn.relu)
+                                             activation=tf.nn.relu,
+                                             name="common_layer_{}".format(i))
 
             # Separating streams into advantage and value networks
-            adv_net = tf.layers.dense(common_net, 32, activation=tf.nn.relu)
-            adv_net = tf.layers.dense(adv_net, self.config.output_size)
+            adv_net = tf.layers.dense(
+                common_net, 32, activation=tf.nn.relu, name="adv_layer_1")
+            adv_net = tf.layers.dense(
+                adv_net, self.config.output_size, name="adv_layer_2")
 
-            val_net = tf.layers.dense(common_net, 32, activation=tf.nn.relu)
-            val_net = tf.layers.dense(val_net, 1)
+            val_net = tf.layers.dense(
+                common_net, 32, activation=tf.nn.relu, name="val_layer_1")
+            val_net = tf.layers.dense(val_net, 1, name="val_layer_2")
 
             self.output = val_net + (adv_net - tf.reduce_mean(adv_net,
                                                               axis=1,
