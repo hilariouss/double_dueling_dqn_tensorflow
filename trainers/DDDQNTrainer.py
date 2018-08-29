@@ -20,6 +20,8 @@ class DDDQNTrainer(BaseTrainer):
 
     @property
     def last_n_avg_reward(self):
+        # returns the following when
+        # `class_object.last_n_avg_reward` is called
         return np.mean(self.last_n_rewards)
 
     def initialize_summary_writer_op(self):
