@@ -3,6 +3,7 @@ import logging
 
 import gym
 import tensorflow as tf
+from tensorflow.python import debug as tf_debug
 
 from models.DDDQN import DDDQN
 from trainers.DDDQNTrainer import DDDQNTrainer
@@ -17,7 +18,7 @@ config = get_config("config.json")
 """
 # Using tf flags instead of argparse
 FLAGS = tf.app.flags.FLAGS
-tf.app.flags.DEFINE_integer("num_episodes", args.num_episodes,
+tf.app.flags.DEFINE_integer("num_episodes", config.num_episodes,
                             "Maximum number of episodes to train.")
 """
 parser = argparse.ArgumentParser()
